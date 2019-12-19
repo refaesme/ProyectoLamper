@@ -300,9 +300,11 @@ public class NewApplication extends javax.swing.JFrame {
                 modelo.fireTableDataChanged();// TODO add your handling code here:
             }else{
                 Producto productoBusqueda = productosDAO.getProductoByCodigo(Integer.valueOf(this.busqueda_txt.getText()));
-                if(productoBusqueda == null){
+                if(productoBusqueda == null ){
                     JOptionPane.showMessageDialog(this,"Producto no existe!");
                 }else{
+                     modelo.getDataVector().removeAllElements();
+                modelo.fireTableDataChanged();// TODO add your handling code here:
                      modelo.addRow(new Object[]{productoBusqueda.getNumid(), productoBusqueda.getCodigo(), productoBusqueda.getNombre(),productoBusqueda.getDescripcion(), productoBusqueda.getPrecio(),productoBusqueda.getStock()});
                 }
             } 
