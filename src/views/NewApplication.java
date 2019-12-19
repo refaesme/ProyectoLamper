@@ -8,6 +8,7 @@ package views;
 import bussiness.ProductoDAO;
 import entities.Producto;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,7 +16,10 @@ import javax.swing.table.DefaultTableModel;
  * @author plataforma
  */
 public class NewApplication extends javax.swing.JFrame {
-
+    
+    ArrayList<Producto> productos = new ArrayList<>();
+    DefaultTableModel modelo =null;
+    ProductoDAO productosDAO = null;
     /**
      * Creates new form NewApplication
      */
@@ -25,8 +29,8 @@ public class NewApplication extends javax.swing.JFrame {
         
         
         initComponents();
-        DefaultTableModel modelo = (DefaultTableModel) this.tablaProductos.getModel();
-        ArrayList<Producto> productos = new ArrayList<>();
+        modelo = (DefaultTableModel) this.tablaProductos.getModel();
+        
         Producto clavo = new Producto(1, 11, "Clavo", "5.5 cm", 100, 1000);
         Producto serrucho = new Producto(2, 12, "Serrucho", "Acero inxidable", 3990, 50);
         Producto martillo = new Producto(3, 13, "Martillo", "Goma ergonomica", 2490, 40);
@@ -63,14 +67,17 @@ public class NewApplication extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        busqueda_txt = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
 
@@ -96,7 +103,7 @@ public class NewApplication extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, true, true, false, true
+                true, false, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -141,9 +148,9 @@ public class NewApplication extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        busqueda_txt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                busqueda_txtActionPerformed(evt);
             }
         });
 
@@ -156,28 +163,48 @@ public class NewApplication extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setText("Eliminar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Modificar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(busqueda_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addGap(127, 127, 127))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(busqueda_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton3))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
+                .addGap(26, 26, 26))
         );
 
         fileMenu.setMnemonic('f');
@@ -205,6 +232,14 @@ public class NewApplication extends javax.swing.JFrame {
             }
         });
         editMenu.add(cutMenuItem);
+
+        jMenuItem1.setText("Listar Productos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        editMenu.add(jMenuItem1);
 
         menuBar.add(editMenu);
 
@@ -250,20 +285,92 @@ public class NewApplication extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void busqueda_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busqueda_txtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_busqueda_txtActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+            
+        if(productosDAO == null){
+            this.productosDAO = new ProductoDAO(productos);
+        }
+        
+            if(this.busqueda_txt.getText().isEmpty()){
+                modelo.getDataVector().removeAllElements();
+                modelo.fireTableDataChanged();// TODO add your handling code here:
+            }else{
+                Producto productoBusqueda = productosDAO.getProductoByCodigo(Integer.valueOf(this.busqueda_txt.getText()));
+                if(productoBusqueda == null){
+                    JOptionPane.showMessageDialog(this,"Producto no existe!");
+                }else{
+                     modelo.addRow(new Object[]{productoBusqueda.getNumid(), productoBusqueda.getCodigo(), productoBusqueda.getNombre(),productoBusqueda.getDescripcion(), productoBusqueda.getPrecio(),productoBusqueda.getStock()});
+                }
+            } 
+            
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
-        FormularioProducto formlario = new FormularioProducto();
+        
+        FormularioProducto formlario = new FormularioProducto(productos,modelo,productosDAO);
         
         
         formlario.setVisible(true); 
     }//GEN-LAST:event_cutMenuItemActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+         modelo.getDataVector().removeAllElements();
+         modelo.fireTableDataChanged();
+        for(Producto producto : productos){
+            
+            modelo.addRow(new Object[]{producto.getNumid(), producto.getCodigo(), producto.getNombre(),producto.getDescripcion(), producto.getPrecio(),producto.getStock()});
+        
+        }                        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       if(productosDAO == null){
+           this.productosDAO = new ProductoDAO(productos);
+       }
+       productosDAO.eliminarProducto(Integer.valueOf(this.tablaProductos.getValueAt(this.tablaProductos.getSelectedRow(), 1).toString()));
+       modelo.getDataVector().removeAllElements();
+         modelo.fireTableDataChanged();
+        for(Producto producto : productos){
+            
+            modelo.addRow(new Object[]{producto.getNumid(), producto.getCodigo(), producto.getNombre(),producto.getDescripcion(), producto.getPrecio(),producto.getStock()});
+        
+        } 
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        
+        if(productosDAO == null){
+            productosDAO = new ProductoDAO(productos);
+        }
+        
+        for(int indice = 0 ; indice < modelo.getRowCount(); indice++){
+            Producto prod = new Producto(Integer.valueOf(this.tablaProductos.getValueAt(indice, 0).toString()),
+                    Integer.valueOf(this.tablaProductos.getValueAt(indice, 1).toString()),
+                    this.tablaProductos.getValueAt(indice, 2).toString(),
+                    this.tablaProductos.getValueAt(indice, 3).toString(),
+                    Double.valueOf(this.tablaProductos.getValueAt(indice, 4).toString()),
+                    Integer.valueOf(this.tablaProductos.getValueAt(indice, 5).toString()));
+                    
+            productosDAO.guardarProducto(prod);
+        }
+        
+        
+        modelo.getDataVector().removeAllElements();
+        modelo.fireTableDataChanged();
+        for(Producto producto : productos){
+            
+            modelo.addRow(new Object[]{producto.getNumid(), producto.getCodigo(), producto.getNombre(),producto.getDescripcion(), producto.getPrecio(),producto.getStock()});
+        
+        } 
+        
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -306,6 +413,7 @@ public class NewApplication extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JTextField busqueda_txt;
     private javax.swing.JMenuItem cutMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
@@ -314,13 +422,15 @@ public class NewApplication extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTable tablaProductos;
     // End of variables declaration//GEN-END:variables

@@ -21,8 +21,10 @@ public class ProductoDAO {
     }
 
     public void guardarProducto(Producto producto) {
-        if(this.listaProductos.contains(producto)){
-            this.listaProductos.add(this.listaProductos.indexOf(producto),producto);
+        Producto busqueda = getProductoByCodigo(producto.getCodigo());
+        if(this.listaProductos.contains(busqueda)){
+            this.listaProductos.add(this.listaProductos.indexOf(busqueda),producto);
+            this.listaProductos.remove(busqueda);
         }else{
             this.listaProductos.add(producto);
         }

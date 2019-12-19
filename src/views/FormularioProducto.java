@@ -5,18 +5,27 @@
  */
 package views;
 
+import bussiness.ProductoDAO;
 import entities.Producto;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author plataforma
  */
 public class FormularioProducto extends javax.swing.JFrame {
-
+    ArrayList<Producto> productosNuevos = null;
+    DefaultTableModel modelo = null;
+    ProductoDAO productoDAO = null;
     /**
      * Creates new form FormularioProducto
      */
-    public FormularioProducto() {
+    public FormularioProducto(ArrayList<Producto> productos , DefaultTableModel modelo,ProductoDAO productoDAO) {
+        productosNuevos = productos;
+        this.modelo = modelo;
+        this.productoDAO = productoDAO;
         initComponents();
     }
 
@@ -184,7 +193,7 @@ public class FormularioProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            // TODO add your handling code here:
+        this.dispose();            // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void codigo_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codigo_txtActionPerformed
@@ -192,7 +201,7 @@ public class FormularioProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_codigo_txtActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       NewApplication aplicacion = new NewApplication();
+      
         Producto producto = new Producto(
                 Integer.valueOf(this.idProducto_txt.getText()) ,
                 Integer.valueOf(this.codigo_txt.getText()),
@@ -200,8 +209,28 @@ public class FormularioProducto extends javax.swing.JFrame {
                 this.descripcion_txt.getText(),
                 Integer.valueOf(this.precio_txt.getText()),
                 Integer.valueOf(this.cantidad_txt.getText()));
-        new NewApplication().get
         modelo.addRow(new Object[]{producto.getNumid(), producto.getCodigo(), producto.getNombre(),producto.getDescripcion(), producto.getPrecio(),producto.getStock()});
+        if(productoDAO==null){
+            productoDAO = new ProductoDAO(productosNuevos);
+        }
+        productoDAO.guardarProducto(producto);
+        JOptionPane.showMessageDialog(this,"Producto Agregado Exitosamente!");
+        this.idProducto_txt.setText("");
+        this.codigo_txt.setText("");
+        this.nombre_txt.setText("");
+        this.descripcion_txt.setText("");
+        this.precio_txt.setText("");
+        this.cantidad_txt.setText("");
+        
+        modelo.getDataVector().removeAllElements();
+         modelo.fireTableDataChanged();
+        for(Producto producto_aux : productosNuevos){
+            
+            modelo.addRow(new Object[]{producto_aux.getNumid(), producto_aux.getCodigo(), producto_aux.getNombre(),producto_aux.getDescripcion(), producto_aux.getPrecio(),producto_aux.getStock()});
+        
+        }
+
+       
         
         
                 
@@ -214,37 +243,7 @@ public class FormularioProducto extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormularioProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormularioProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormularioProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormularioProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormularioProducto().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cantidad_txt;
